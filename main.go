@@ -46,6 +46,7 @@ var palette = map[string]color.Palette{
 	"magma":   colormap.Magma,
 	"plasma":  colormap.Plasma,
 	"viridis": colormap.Viridis,
+	"parula":  colormap.Parula,
 }
 
 func main() {
