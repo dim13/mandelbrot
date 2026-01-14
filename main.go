@@ -8,6 +8,7 @@ import (
 	"log"
 	"math/cmplx"
 	"os"
+	"slices"
 
 	"github.com/dim13/colormap"
 )
@@ -52,6 +53,7 @@ func main() {
 	width := flag.Int("w", 800, "width")
 	height := flag.Int("h", 600, "height")
 	pal := flag.String("p", "magma", "palette (inferno, magma, plasma, viridis)")
+	inverse := flag.Bool("i", false, "inverse palette")
 	flag.Parse()
 
 	fd, err := os.Create(*fname)
@@ -64,6 +66,9 @@ func main() {
 	if !ok {
 		log.Printf("no such palette %s, fallback to magma", *pal)
 		p = colormap.Magma
+	}
+	if *inverse {
+		slices.Reverse(p)
 	}
 
 	img := generate(image.Rect(0, 0, *width, *height), p)
