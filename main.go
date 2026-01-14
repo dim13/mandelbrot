@@ -17,7 +17,7 @@ func mandelbrot(img *image.Paletted, p image.Point) {
 	var z complex128
 	c := scale(img.Bounds(), p)
 	for n := 0; n < len(img.Palette); n++ {
-		if z = z*z + c; cmplx.IsInf(z) {
+		if z = cmplx.Pow(z, 2) + c; cmplx.IsInf(z) {
 			img.SetColorIndex(p.X, p.Y, uint8(n))
 			return
 		}
