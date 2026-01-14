@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"image"
 	"image/color"
 	"image/png"
@@ -39,13 +40,33 @@ func generate(r image.Rectangle, p color.Palette) image.Image {
 	return img
 }
 
+var palette = map[string]color.Palette{
+	"inferno": colormap.Inferno,
+	"magma":   colormap.Magma,
+	"plasma":  colormap.Plasma,
+	"viridis": colormap.Viridis,
+}
+
 func main() {
-	fd, err := os.Create("mandelbrot.png")
+	fname := flag.String("f", "mandelbrot.png", "file name")
+	width := flag.Int("w", 800, "width")
+	height := flag.Int("h", 600, "height")
+	pal := flag.String("p", "magma", "palette (inferno, magma, plasma, viridis)")
+	flag.Parse()
+
+	fd, err := os.Create(*fname)
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer fd.Close()
-	img := generate(image.Rect(0, 0, 800, 600), colormap.Magma)
+
+	p, ok := palette[*pal]
+	if !ok {
+		log.Printf("no such palette %s, fallback to magma", *pal)
+		p = colormap.Magma
+	}
+
+	img := generate(image.Rect(0, 0, *width, *height), p)
 	if err := png.Encode(fd, img); err != nil {
 		log.Println(err)
 	}

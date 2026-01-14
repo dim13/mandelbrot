@@ -1,5 +1,5 @@
 module github.com/dim13/mandelbrot
 
-go 1.14
+go 1.25
 
-require github.com/dim13/colormap v0.0.0-20200419222349-6bb176068094
+require github.com/dim13/colormap v1.0.0
